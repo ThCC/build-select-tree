@@ -1,0 +1,62 @@
+.buildselect {
+    width: 200px;
+    max-height: 300px;
+    position: relative;
+}
+
+.buildselect-wrapper {
+    margin: 0;
+    background: #fff;
+    border: 1px solid #aaa;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+    z-index: 1010;
+    width: 320px;
+    padding: 0 5px 5px 5px;
+    border-radius: 4px;
+    position: absolute;
+
+}
+
+.build-select-tree li {
+    padding-top: 5px;
+}
+
+.buildselect .buildselect-wrapper li {
+    list-style: none;
+}
+
+.buildselect .buildselect-wrapper .selectChoice {
+    margin: 5px, 0;!important
+}
+
+.buildselect-wrapper input[type='checkbox'] {
+    position: relative;
+    top: -2px;
+    left: -5px;
+}
+
+div .buildselect-wrapper {
+    overflow: auto;
+    max-height: 150px;
+}
+
+.buildselect input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    height: 25px;
+}
+
+.buildselect .btn {
+    width: 330px;
+}
+
+.buildselect-wrapper .imagem_lista_associacao {
+    background: url("../../lib/build-select-tree/childDivider.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 10px;
+    position: relative;
+    top: 6px;
+    left: -10px;
+    width: 10px;
+    margin-left: 5px;
+}
