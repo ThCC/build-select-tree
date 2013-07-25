@@ -1,12 +1,4 @@
-/**
- * Created with PyCharm.
- * User: thiago.dnt
- * Date: 15/07/13
- * Time: 14:36
- * To change this template use File | Settings | File Templates.
- */
-
-angular.module('KarooApp.directives').directive('buildSelectTree', ['$document', function ($document) {
+app.directive('buildSelectTree', function () {
 
     return {
         restrict: 'E',
@@ -29,10 +21,10 @@ angular.module('KarooApp.directives').directive('buildSelectTree', ['$document',
         controller: ['$scope', '$element', '$attrs', '$timeout', function ($scope, $element, $attrs, $timeout) {
             $scope.titlesList = [];
             $scope.labelBtn = {
-                defaultName: $scope.config.labelBtn.defaultName != undefined ? $scope.config.labelBtn.defaultName : "Selecione...",
-                multi: $scope.config.labelBtn.multi != undefined ? $scope.config.labelBtn.multi : "Selecionados: "
+                defaultName: $scope.config.labelBtn.defaultName !== undefined ? $scope.config.labelBtn.defaultName : "Selecione...",
+                multi: $scope.config.labelBtn.multi !== undefined ? $scope.config.labelBtn.multi : "Selecionados: "
             };
-            $scope.maxBtnLabels = $scope.config.maxBtnLabels != undefined ? $scope.config.maxBtnLabels : 2;
+            $scope.maxBtnLabels = $scope.config.maxBtnLabels !== undefined ? $scope.config.maxBtnLabels : 2;
             if ($scope.config.preChecked === undefined)
                 $scope.config.preChecked = [];
             if ($scope.config.postChecked === undefined)
@@ -78,7 +70,7 @@ angular.module('KarooApp.directives').directive('buildSelectTree', ['$document',
 
             function renameBtnLabel(titlesList) {
                 var temp = "";
-                if (titlesList.length == 0)
+                if (titlesList.length === 0)
                     $scope.btnLabel = $scope.labelBtn.defaultName;
                 else if (titlesList.length <= $scope.maxBtnLabels) {
                     for (var i = 0; i < titlesList.length; i++)
@@ -136,9 +128,9 @@ angular.module('KarooApp.directives').directive('buildSelectTree', ['$document',
             };
         }
     };
-}]);
+});
 
-angular.module('KarooApp.directives').directive('selectTree', function () {
+app.directive('selectTree', function () {
 
     return {
         template: '<ul class="build-select-tree"><choice ng-repeat="choice in tree"></choice></ul>',
@@ -151,7 +143,7 @@ angular.module('KarooApp.directives').directive('selectTree', function () {
     };
 });
 
-angular.module('KarooApp.directives').directive('choice', ['$compile', 'ValueSharedService', function ($compile) {
+app.directive('choice', ['$compile', function ($compile) {
 
     return {
         restrict: 'E',
@@ -171,7 +163,7 @@ angular.module('KarooApp.directives').directive('choice', ['$compile', 'ValueSha
                 if (!obj || typeof(obj) === "undefined") {
                     return false;
                 }
-                if (typeof(obj.items) === "undefined" || obj.items.length == 0) {
+                if (typeof(obj.items) === "undefined" || obj.items.length === 0) {
                     //tree leaf
                     return typeof(obj.id) !== "undefined" && obj.checked;
                 } else {
