@@ -33,7 +33,7 @@ Config = {
 
 WHAT IS EACH SETTING:
 
-disabled: if true then the dropdown will be disabled.
+disabled: if true then the dropdown will be disabled. (must be given)
 
 noneChecked: if true then there is no item selected.
 
@@ -45,12 +45,12 @@ labelBtn.multi: Label when more than one item is selected. What appears is the l
 
 maxBtnLabels: How many names of selected items will be displayed on the button.
 
-tree: tree of elements.
+tree: tree of elements. (must be given)
 
 preChecked: list of ids of the elements that should be selected when loading the tree.
 
 postChecked: list of ids of the items selected by the user.
 
 
-SETTINGS REQUIRED:
-disabled and tree
+Example:
+http://plnkr.co/edit/RbJUCb?p=preview
