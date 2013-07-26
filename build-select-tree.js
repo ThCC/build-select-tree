@@ -6,7 +6,7 @@ app.directive('buildSelectTree', function () {
             config: '='
         },
         priority: 25,
-        template: '<div>' +
+        template: '<div style="display: inline-block;">' +
             '<div class="buildselect">' +
             '<button class="btn" ng-disabled="config.disabled" ng-click="toggleSelect()">' +
             '<span class="pull-left">{{btnLabel}}</span>' +
@@ -36,7 +36,7 @@ app.directive('buildSelectTree', function () {
             function PreCheckElemnts(analysisList, compareList) {
                 for (var i = 0; i < analysisList.length; i++) {
                     var obj = analysisList[i];
-                    if (obj.items  === undefined)
+                    if (obj.items === undefined)
                         obj.items = [];
                     if (obj.items.length > 0)
                         PreCheckElemnts(obj.items, compareList);
@@ -126,6 +126,11 @@ app.directive('buildSelectTree', function () {
             scope.toggleSelect = function () {
                 scope.isVisible = !scope.isVisible;
             };
+
+            $document.bind('click', function () {
+                scope.isVisible = false;
+                scope.$apply();
+            });
         }
     };
 });
