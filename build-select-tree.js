@@ -1,4 +1,4 @@
-app.directive('buildSelectTree', function () {
+app.directive('buildSelectTree', ['$document', function ($document) {
 
     return {
         restrict: 'E',
@@ -133,7 +133,7 @@ app.directive('buildSelectTree', function () {
             });
         }
     };
-});
+}]);
 
 app.directive('selectTree', function () {
 
