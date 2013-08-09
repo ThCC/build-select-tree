@@ -17,7 +17,9 @@ The component consists of three directives, but only one of them should be used.
 SETTINGS:
 
 The settings have to be provided in the format of an object:
+
 Config = {
+  selectTreeId: "idExample",
   disabled: true,
   noneChecked: true,
   labelBtn: {
@@ -32,6 +34,8 @@ Config = {
 
 
 WHAT IS EACH SETTING:
+
+selectTreeId: The identifier of the dropdown. If the component to be used more than once on the same page it is necessary to provide this id.
 
 disabled: if true then the dropdown will be disabled. (must be given)
 
