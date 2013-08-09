@@ -1,4 +1,20 @@
-app.directive('buildSelectTree', ['$document', function ($document) {
+/**
+ * Build Select Tree - Component to create a dropdown that contains a tree-view
+ * @version v0.4.0 - 2013-08-09
+ * @link https://github.com/ThCC/build-select-tree
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+
+angular.module('bst.config', []).value('bst.config', {});
+angular.module('bst.directives', ['bst.config']);
+angular.module('bst', ['bst.directives', 'bst.config']);
+
+ /**
+ * @param [config] {mixed} Has to be provided a set of configurations to build the tree. 
+ * Questions about the collection of settings to see documentation: https://github.com/ThCC/build-select-tree/blob/master/README.md
+ * If the documentation does not answer your questions, feel free to open issues or pull requests.
+ */
+angular.module('bst.directives').directive('bstBuildSelectTree', ['$document', '$rootScope', function ($document, $rootScope) {
 
     return {
         restrict: 'E',
@@ -6,20 +22,21 @@ app.directive('buildSelectTree', ['$document', function ($document) {
             config: '='
         },
         priority: 25,
-        template: '<div style="display: inline-block;">' +
+        template: '<div id={{selectTreeId}} style="display: inline-block;">' +
             '<div class="buildselect">' +
             '<button class="btn" ng-disabled="config.disabled" ng-click="toggleSelect()">' +
             '<span class="pull-left">{{btnLabel}}</span>' +
             '<span class="caret pull-right"></span>' +
             '</button>' +
             '<div class="buildselect-wrapper" ng-show="isVisible">' +
-            '<select-tree ng-model="config.tree"></select-tree>' +
+            '<bst-select-tree ng-model="config.tree"></bst-select-tree>' +
             '</div>' +
             '</div>' +
             '</div>',
         replace: true,
         controller: ['$scope', '$element', '$attrs', '$timeout', function ($scope, $element, $attrs, $timeout) {
             $scope.titlesList = [];
+            $scope.selectTreeId = $scope.config.selectTreeId !== undefined ? $scope.config.selectTreeId : "defaultId";
             $scope.labelBtn = {
                 defaultName: $scope.config.labelBtn.defaultName !== undefined ? $scope.config.labelBtn.defaultName : "Selecione...",
                 multi: $scope.config.labelBtn.multi !== undefined ? $scope.config.labelBtn.multi : "Selecionados: "
@@ -82,7 +99,7 @@ app.directive('buildSelectTree', ['$document', function ($document) {
             }
 
             $scope.$watch(function () {
-                return $scope.config.tree.length
+                return $scope.config.tree.length;
             }, function (novo, antigo) {
                 if (novo > 0) {
                     var fake_father = {id: "fake", items: [], checked: false};
@@ -121,12 +138,21 @@ app.directive('buildSelectTree', ['$document', function ($document) {
 
             element.bind('click', function (event) {
                 event.stopImmediatePropagation();
+                if (scope.selectTreeId !== null)
+                  $rootScope.$emit('selectTree-open', {id: scope.selectTreeId});
             });
 
             scope.toggleSelect = function () {
                 scope.isVisible = !scope.isVisible;
             };
-
+            
+            $rootScope.$on('selectTree-open', function (event, args) {
+              if (scope.selectTreeId != args.id) {
+                scope.isVisible = false;
+                scope.$apply();
+              }
+            });
+            
             $document.bind('click', function () {
                 scope.isVisible = false;
                 scope.$apply();
@@ -135,10 +161,10 @@ app.directive('buildSelectTree', ['$document', function ($document) {
     };
 }]);
 
-app.directive('selectTree', function () {
+angular.module('bst.directives').directive('bstSelectTree', function () {
 
     return {
-        template: '<ul class="build-select-tree"><choice ng-repeat="choice in tree"></choice></ul>',
+        template: '<ul class="bst-build-select-tree"><bst-choice ng-repeat="choice in tree"></bst-choice></ul>',
         replace: true,
         transclude: true,
         restrict: 'E',
@@ -148,7 +174,7 @@ app.directive('selectTree', function () {
     };
 });
 
-app.directive('choice', ['$compile', function ($compile) {
+angular.module('bst.directives').directive('bstChoice', ['$compile', function ($compile) {
 
     return {
         restrict: 'E',
@@ -202,12 +228,12 @@ app.directive('choice', ['$compile', function ($compile) {
                 }
 
                 checkChildren(choice);
-                scope.$emit('ListUpdated', {msg: "List was Updated"})
+                scope.$emit('ListUpdated', {msg: "List was Updated"});
             };
 
             //Add children by $compiling and doing a new choice directive
             if (scope.choice.items.length > 0) {
-                var childChoice = $compile('<select-tree ng-model="choice.items"></choice-tree>')(scope);
+                var childChoice = $compile('<bst-select-tree ng-model="choice.items"></bst-select-tree>')(scope);
                 elm.append(childChoice);
             }
         }
